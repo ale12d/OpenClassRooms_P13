@@ -1,0 +1,21 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@2.1.1
+
+jobs:
+  test:
+    docker:
+      - image: cimg/python:3.10.7
+    steps:
+      - checkout # check out the code in the project directory
+      - python/install-packages:
+          pkg-manager: pip
+      - run:
+          name: Run tests
+          command: pytest
+
+workflows:
+  my-workflow:
+    jobs:
+      - test
