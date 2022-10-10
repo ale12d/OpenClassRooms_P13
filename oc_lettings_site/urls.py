@@ -4,6 +4,10 @@ from django.urls import path
 from lettings import views as lettings_views
 from profiles import views as profiles_views
 from oc_lettings_site.views import index
+from django.urls import path
+
+def trigger_error(request):
+    division_by_zero = 1 / 0
 
 urlpatterns = [
     path('', index, name='index'),
@@ -12,4 +16,5 @@ urlpatterns = [
     path('profiles/', profiles_views.index, name='profiles_index'),
     path('profiles/<str:username>/', profiles_views.profile, name='profile'),
     path('admin/', admin.site.urls),
+    path('sentry-debug/', trigger_error),
 ]
