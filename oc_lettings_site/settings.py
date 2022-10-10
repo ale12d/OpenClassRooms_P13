@@ -1,12 +1,10 @@
 import os
 import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 sentry_sdk.init(
-    dsn="https://d6ec9aa8ac5945ebb7c3a2d7a6a88c13@o4503958330081280.ingest.sentry.io/4503958332178432",
-
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
-    # We recommend adjusting this value in production.
-    traces_sample_rate=1.0
+    dsn=os.environ.get('DSN'),
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,
 )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
