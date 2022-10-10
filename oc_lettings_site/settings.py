@@ -24,6 +24,11 @@ STATICFILES_DIRS = (
 )
 
 # Application definition
+ALLOWED_HOSTS = [
+    '0.0.0.0',
+    'ocr-lettings-p13.herokuapp.com',
+    '127.0.0.1'
+]
 
 INSTALLED_APPS = [
     'oc_lettings_site.apps.OCLettingsSiteConfig',
