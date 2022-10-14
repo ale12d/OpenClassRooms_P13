@@ -1,6 +1,7 @@
 import pytest
 from .models import Profile
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 User = get_user_model()
 @pytest.mark.django_db
@@ -14,7 +15,7 @@ def test_profile(client):
                            favorite_city='Paris'
                            )
 
-    response = client.get("/profiles/")
+    response = client.get(reverse("profiles_index"))
 
     assert response.status_code == 200
     assert b"Batman" in response.content
@@ -30,6 +31,6 @@ def test_profile_detail(client):
     Profile.objects.create(user_id=user.id,
                            favorite_city='Paris'
                            )
-    response = client.get(f"/profiles/{user.username}/")
-    print(response.content)
+    response = client.get(reverse("profile", kwargs={"username": user.username}))
+
     assert b"Paris" in response.content
