@@ -1,13 +1,14 @@
 from django.contrib import admin
-from django.urls import path
-
 from lettings import views as lettings_views
 from profiles import views as profiles_views
 from oc_lettings_site.views import index
 from django.urls import path
 
+
 def trigger_error(request):
     division_by_zero = 1 / 0
+    return division_by_zero
+
 
 urlpatterns = [
     path('', index, name='index'),
