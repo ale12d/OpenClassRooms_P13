@@ -2,9 +2,12 @@ version: 2.1
 
 orbs:
   python: circleci/python@2.1.1
+  docker: circleci/docker@2.1.4
+  heroku: circleci/heroku@2.0.0
+
 
 jobs:
-  test:
+  tests:
     docker:
       - image: cimg/python:3.10.7
     steps:
@@ -18,7 +21,33 @@ jobs:
           name: Flake8
           command: flake8
 
+  heroku-deploy:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/install
+      - run: heroku config:set SECRET_KEY=$SECRET_KEY -a $HEROKU_APP
+      - run: heroku config:set DSN=$DSN -a $HEROKU_APP
+      - heroku/deploy-via-git
+
+  docker-build:
+    docker:
+      - image: circleci/python:3.10
+    steps:
+      - setup_remote_docker:
+          version: 20.10.14
+      - checkout
+      - run:
+        name: build
+        command: |
+        docker build --tag oc-lettings-site:$CIRCLE_SHA1 .
+        docker tag oc-lettings-site:$CIRCLE_SHA1 $DOCKERHUB_USER/oc-lettings-site:$CIRCLE_SHA1
+        echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USER --password-stdin
+        docker push "$DOCKERHUB_USER/oc-lettings-site:$CIRCLE_SHA1"
+
 workflows:
   my-workflow:
     jobs:
-      - test
+      - tests
+      - heroku-deploy
+      - docker-build
