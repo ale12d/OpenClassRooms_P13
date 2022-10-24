@@ -50,6 +50,18 @@ jobs:
 workflows:
   my-workflow:
     jobs:
-      - tests
-      - heroku-deploy
-      - docker-build
+      - tests:
+          filters:
+             branches:
+              only:
+                - main
+      - heroku-deploy:
+          filters:
+             branches:
+              only:
+                - main
+      - docker-build:
+          filters:
+             branches:
+              only:
+                - main
