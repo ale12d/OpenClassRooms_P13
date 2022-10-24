@@ -33,4 +33,5 @@ def test_profile_detail(client):
                            )
     response = client.get(reverse("profile", kwargs={"username": user.username}))
 
+    assert response.status_code == 200
     assert b"test-favorite_city" in response.content

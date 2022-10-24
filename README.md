@@ -78,7 +78,17 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 
 ### Déploiement 
 
-Configurer les variables d'environnement dans un fichier .env:
+Prérequis:
 
-- DSN
-- SECRET_KEY
+- Avoir un compte Heroku, CircleCI, Sentry et DockerHub
+
+Lier son GitHub sur CircleCI pour recupérer le repository git.
+
+Configurer les variables d'environnement:
+
+- DSN: ( Sentry )
+- SECRET_KEY: ( Django )
+- HEROKU_APP_NAME
+- HEROKU_API_KEY
+- DOCKERHUB_USER
+- DOCKERHUB_PASSWORD

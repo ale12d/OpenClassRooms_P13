@@ -31,4 +31,5 @@ def test_letting_detail(client):
     letting = Letting.objects.create(title="test-title", address_id=address.id)
     response = client.get(reverse("letting", kwargs={"letting_id": letting.id}))
 
+    assert response.status_code == 200
     assert b"test-street" in response.content
