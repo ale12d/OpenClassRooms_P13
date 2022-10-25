@@ -4,6 +4,9 @@ from profiles import views as profiles_views
 from oc_lettings_site.views import index
 from django.urls import path
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 def trigger_error(request):
     division_by_zero = 1 / 0
@@ -19,3 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('sentry-debug/', trigger_error),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
