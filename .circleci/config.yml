@@ -51,16 +51,17 @@ workflows:
   my-workflow:
     jobs:
       - tests
-      - heroku-deploy:
+      - docker-build:
           requires:
             - tests
           filters:
              branches:
               only:
                 - main
-      - docker-build:
+      - heroku-deploy:
           requires:
             - tests
+            - docker-build
           filters:
              branches:
               only:
